@@ -21,6 +21,7 @@ public class DefaultRateLimiterTest {
             executorService.shutdown();
         }
         Assert.assertTrue(rateLimiterStatistic.successCount <= 10);
+        Assert.assertTrue(rateLimiterStatistic.successCount >= 9);
         Assert.assertTrue(rateLimiterStatistic.allCount >= 58);
     }
 
@@ -34,7 +35,9 @@ public class DefaultRateLimiterTest {
             executorService.shutdown();
         }
         Assert.assertTrue(rateLimiterStatistic.successCount <= 10);
+        Assert.assertTrue(rateLimiterStatistic.successCount >= 9);
         Assert.assertTrue(rateLimiterStatistic.allCount <= 10);
+        Assert.assertTrue(rateLimiterStatistic.allCount >= 9);
     }
 
     private static class RateLimiterStatistic implements Runnable {
