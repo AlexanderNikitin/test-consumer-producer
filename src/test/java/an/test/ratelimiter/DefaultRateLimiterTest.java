@@ -7,6 +7,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static an.test.util.CommonUtils.sleepOneMinute;
+
 public class DefaultRateLimiterTest {
 
     @Test
@@ -35,17 +37,6 @@ public class DefaultRateLimiterTest {
         Assert.assertTrue(rateLimiterStatistic.allCount <= 10);
     }
 
-    private static void sleepOneMinute() {
-        sleep(TimeUnit.MINUTES.toMillis(1));
-    }
-
-    private static void sleep(long millis) {
-        try {
-            Thread.sleep(millis);
-        } catch (InterruptedException ignore) {
-        }
-    }
-
     private static class RateLimiterStatistic implements Runnable {
         private final RateLimiter rateLimiter;
         public int allCount = 0;
@@ -65,5 +56,4 @@ public class DefaultRateLimiterTest {
             }
         }
     }
-
 }
