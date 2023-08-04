@@ -28,14 +28,14 @@ public abstract class AbstractProducer<T> implements Producer<T> {
 
     @Override
     public void produceSingleMessage() throws RateLimitExceeded {
-        if (!rateLimiter.shouldHandle()) {
+        if (rateLimiter == null || rateLimiter.shouldHandle()) {
+            try {
+                queue.put(createMessage());
+            } catch (QueueOverflowException e) {
+                throw new RateLimitExceeded(e);
+            }
+        } else {
             throw new RateLimitExceeded();
-        }
-
-        try {
-            queue.put(createMessage());
-        } catch (QueueOverflowException e) {
-            throw new RateLimitExceeded(e);
         }
     }
 
