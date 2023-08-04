@@ -6,7 +6,15 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 public class DefaultQueue<T> implements Queue<T> {
-    private final BlockingQueue<T> internalQueue = new LinkedBlockingQueue<>();
+    private final BlockingQueue<T> internalQueue;
+
+    public DefaultQueue() {
+        internalQueue = new LinkedBlockingQueue<>();
+    }
+
+    public DefaultQueue(int limit) {
+        internalQueue = new LinkedBlockingQueue<>(limit);
+    }
 
     @Override
     public void put(T message) throws QueueOverflowException {
