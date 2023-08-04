@@ -7,10 +7,12 @@ import an.test.ratelimiter.RateLimiter;
 public abstract class AbstractProducer<T> implements Producer<T> {
     private RateLimiter rateLimiter;
     private Queue<T> queue;
+    private int rateLimitMinute;
 
     @Override
     public void setRateLimiter(RateLimiter rateLimiter) {
         this.rateLimiter = rateLimiter;
+        rateLimiter.setRateLimitMinute(rateLimitMinute);
     }
 
     @Override
@@ -20,10 +22,11 @@ public abstract class AbstractProducer<T> implements Producer<T> {
 
     @Override
     public void setProduceRateLimitMinute(int maxCount) {
+        rateLimitMinute = maxCount;
         if (rateLimiter == null) {
             return;
         }
-        rateLimiter.setProduceRateLimitMinute(maxCount);
+        rateLimiter.setRateLimitMinute(rateLimitMinute);
     }
 
     @Override

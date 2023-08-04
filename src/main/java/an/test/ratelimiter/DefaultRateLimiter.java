@@ -12,7 +12,7 @@ public class DefaultRateLimiter implements RateLimiter {
     }
 
     @Override
-    public void setProduceRateLimitMinute(int maxCount) {
+    public void setRateLimitMinute(int maxCount) {
         minuteMaxCount = maxCount;
         initDelay();
     }
@@ -28,6 +28,10 @@ public class DefaultRateLimiter implements RateLimiter {
     }
 
     private void initDelay() {
-        calculatedDelay = TimeUnit.MINUTES.toMillis(1) / minuteMaxCount;
+        if (minuteMaxCount > 0) {
+            calculatedDelay = TimeUnit.MINUTES.toMillis(1) / minuteMaxCount;
+        } else {
+            calculatedDelay = 0;
+        }
     }
 }
