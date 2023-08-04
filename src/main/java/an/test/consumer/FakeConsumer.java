@@ -8,7 +8,7 @@ public class FakeConsumer extends AbstractConsumer<String> {
 
     @Override
     protected void handleMessage(String message) {
-        System.out.println("                 " + message);
+        System.out.println("                 Handling " + message);
         long millisDelta = millisToHandle / HANDLING_STEPS_COUNT;
         long now = System.currentTimeMillis();
         for (long time = now, i = 1; time < now + millisToHandle; time += millisDelta, i++) {
