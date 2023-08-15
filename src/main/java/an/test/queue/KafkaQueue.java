@@ -1,12 +1,14 @@
 package an.test.queue;
 
-import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 
-import java.util.*;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.Optional;
+import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -38,10 +40,8 @@ public class KafkaQueue<T> implements Queue<T> {
     @Override
     public Optional<T> pull(long timeoutMillis) {
         if (messages.isEmpty()) {
-            ConsumerRecords<String, T> poll = consumer.poll(timeoutMillis);
-            for (var p : poll) {
-                messages.add(p.value());
-            }
+            consumer.poll(timeoutMillis)
+                    .forEach(r -> messages.addLast(r.value()));
         }
         return Optional.ofNullable(messages.poll());
     }
